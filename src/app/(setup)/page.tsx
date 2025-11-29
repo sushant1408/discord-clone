@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 
+import { InitialDialog } from "@/components/dialogs/initial-dialog";
 import { initialProfile } from "@/lib/initial-profile";
 import { db } from "@/lib/prisma";
 
@@ -20,5 +21,5 @@ export default async function SetupPage() {
     redirect(`/servers/${server.id}`);
   }
 
-  return <div>Create a server</div>;
+  return <InitialDialog />;
 }
