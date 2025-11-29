@@ -10,8 +10,6 @@ const initialProfile = async () => {
     return redirectToSignIn();
   }
 
-  console.log({ user, userId });
-
   const profile = await db.profile.findUnique({
     where: { userId },
   });
