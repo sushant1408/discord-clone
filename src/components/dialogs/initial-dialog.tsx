@@ -1,6 +1,8 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -31,6 +33,7 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const InitialDialog = () => {
+  const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -45,7 +48,17 @@ const InitialDialog = () => {
     },
   });
 
-  const onSubmit = (values: FormValues) => {};
+  const onSubmit = async (values: FormValues) => {
+    try {
+      await axios.post("/api/servers", values);
+
+      form.reset();
+      router.refresh();
+      window.location.reload();
+    } catch (error) {
+      
+    }
+  };
 
   const isLoading = form.formState.isSubmitting;
 
@@ -100,7 +113,7 @@ const InitialDialog = () => {
                       id="initial-server-name"
                       aria-invalid={fieldState.invalid}
                       disabled={isLoading}
-                      className="bg-zinc-300/50! border-0 focus-visible:ring-0 text-black focus-within:ring-offset-0"
+                      className="bg-zinc-300/50! border-0 focus-visible:ring-0 text-black! focus-within:ring-offset-0"
                       placeholder="Enter server name"
                     />
                     {fieldState.invalid && (
