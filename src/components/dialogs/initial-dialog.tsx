@@ -1,0 +1,116 @@
+"use client";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { z } from "zod";
+
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle
+} from "@/components/ui/dialog";
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+
+const formSchema = z.object({
+  name: z.string().min(1, { error: "Server name is required" }),
+  imageUrl: z.string().min(1, { error: "Server image is required" }),
+});
+
+type FormValues = z.infer<typeof formSchema>;
+
+const InitialDialog = () => {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      imageUrl: "",
+    },
+  });
+
+  const onSubmit = (values: FormValues) => {};
+
+  const isLoading = form.formState.isSubmitting;
+
+  if (!isMounted) {
+    return null;
+  }
+
+  return (
+    <Dialog open>
+      <DialogContent className="bg-white text-black p-0 overflow-hidden">
+        <DialogHeader className="pt-8 px-6">
+          <DialogTitle className="text-2xl text-center font-bold">
+            Customize your server
+          </DialogTitle>
+          <DialogDescription className="text-center text-zinc-500">
+            Give your server a personality with a name and an image. You can
+            always change it later.
+          </DialogDescription>
+        </DialogHeader>
+        <form id="form-initial-server" onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="px-6">
+            <FieldGroup className="gap-8">
+              <div className="flex items-center justify-center text-center">
+                TODO: Image upload
+              </div>
+              <Controller
+                control={form.control}
+                name="name"
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.error}>
+                    <FieldLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
+                      Server name
+                    </FieldLabel>
+                    <Input
+                      {...field}
+                      id="initial-server-name"
+                      aria-invalid={fieldState.invalid}
+                      disabled={isLoading}
+                      className="bg-zinc-300/50! border-0 focus-visible:ring-0 text-black focus-within:ring-offset-0"
+                      placeholder="Enter server name"
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
+            </FieldGroup>
+          </div>
+        </form>
+        <DialogFooter className="bg-gray-100 px-6 py-4">
+          <Field orientation="horizontal">
+            <Button
+              type="submit"
+              form="form-initial-server"
+              disabled={isLoading}
+              className="ml-auto"
+              variant="primary"
+            >
+              Create
+            </Button>
+          </Field>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export { InitialDialog };
