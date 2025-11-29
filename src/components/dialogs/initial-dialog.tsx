@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { FileUpload } from "@/components/file-upload";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -12,13 +13,13 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle
+  DialogTitle,
 } from "@/components/ui/dialog";
 import {
   Field,
   FieldError,
   FieldGroup,
-  FieldLabel
+  FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 
@@ -67,9 +68,25 @@ const InitialDialog = () => {
         <form id="form-initial-server" onSubmit={form.handleSubmit(onSubmit)}>
           <div className="px-6">
             <FieldGroup className="gap-8">
-              <div className="flex items-center justify-center text-center">
-                TODO: Image upload
-              </div>
+              <Controller
+                control={form.control}
+                name="imageUrl"
+                render={({ field, fieldState }) => (
+                  <Field
+                    data-invalid={fieldState.error}
+                    className="flex items-center justify-center text-center"
+                  >
+                    <FileUpload
+                      endpoint="serverImage"
+                      value={field.value}
+                      onChange={field.onChange}
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
               <Controller
                 control={form.control}
                 name="name"
@@ -96,17 +113,14 @@ const InitialDialog = () => {
           </div>
         </form>
         <DialogFooter className="bg-gray-100 px-6 py-4">
-          <Field orientation="horizontal">
-            <Button
-              type="submit"
-              form="form-initial-server"
-              disabled={isLoading}
-              className="ml-auto"
-              variant="primary"
-            >
-              Create
-            </Button>
-          </Field>
+          <Button
+            type="submit"
+            form="form-initial-server"
+            disabled={isLoading}
+            variant="primary"
+          >
+            Create
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
