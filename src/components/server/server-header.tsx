@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MemberRole } from "@/generated/prisma/enums";
 import type { ServerWithMembersWithProfiles } from "@/lib/types";
+import { useDialogStore } from "@/hooks/use-dialog-store";
 
 interface ServerHeaderProps {
   server: ServerWithMembersWithProfiles;
@@ -26,6 +27,8 @@ interface ServerHeaderProps {
 }
 
 const ServerHeader = ({ role, server }: ServerHeaderProps) => {
+  const { onOpen } = useDialogStore();
+
   const isAdmin = role === MemberRole.ADMIN;
   const isModerator = isAdmin || role === MemberRole.MODERATOR;
 
@@ -42,7 +45,10 @@ const ServerHeader = ({ role, server }: ServerHeaderProps) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56 text-xs font-media text-black dark:text-neutral-400 space-y-0.5">
         {isModerator && (
-          <DropdownMenuItem className="text-indigo-600 dark:text-indigo-400 px-3 py-2 text-sm cursor-pointer">
+          <DropdownMenuItem
+            className="text-indigo-600 dark:text-indigo-400 px-3 py-2 text-sm cursor-pointer"
+            onClick={() => onOpen("invite", { server })}
+          >
             Invite People
             <UserPlusIcon className="size-4 ml-auto text-indigo-600 dark:text-indigo-400" />
           </DropdownMenuItem>
