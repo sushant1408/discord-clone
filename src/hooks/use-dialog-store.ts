@@ -1,14 +1,21 @@
 import { create } from "zustand";
 
-export type DialogType = "createServer";
+import type { Server } from "@/generated/prisma/client";
+
+export type DialogType = "createServer" | "invite";
+
+interface DialogData {
+  server?: Server;
+}
 
 type DialogStoreState = {
   type: DialogType | null;
+  data: DialogData;
   isOpen: boolean;
 };
 
 type DialogStoreActions = {
-  onOpen: (type: DialogType) => void;
+  onOpen: (type: DialogType, data?: DialogData) => void;
   onClose: () => void;
 };
 
@@ -16,9 +23,10 @@ type DialogStore = DialogStoreState & DialogStoreActions;
 
 const useDialogStore = create<DialogStore>((set) => ({
   type: null,
+  data: {},
   isOpen: false,
-  onOpen: (type) => set({ isOpen: true, type }),
-  onClose: () => set({ isOpen: false, type: null }),
+  onOpen: (type, data = {}) => set({ isOpen: true, type, data }),
+  onClose: () => set({ isOpen: false, type: null, data: {} }),
 }));
 
 export { useDialogStore };

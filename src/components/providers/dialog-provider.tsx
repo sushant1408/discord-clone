@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { CreateServerDialog } from "@/components/dialogs/create-server-dialog";
+import { InviteDialog } from "@/components/dialogs/invite-dialog";
 
 const DialogProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -18,6 +19,7 @@ const DialogProvider = () => {
   return (
     <>
       <CreateServerDialog />
+      <InviteDialog />
     </>
   );
 };
