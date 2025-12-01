@@ -2,16 +2,15 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import qs from "query-string";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { FileUpload } from "@/components/file-upload";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -23,26 +22,41 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { ChannelType } from "@/generated/prisma/enums";
 import { useDialogStore } from "@/hooks/use-dialog-store";
 
 const formSchema = z.object({
-  name: z.string().min(1, { error: "Server name is required" }),
-  imageUrl: z.string().min(1, { error: "Server image is required" }),
+  name: z
+    .string()
+    .min(1, { error: "Channel name is required" })
+    .refine((name) => name !== "general", {
+      error: 'Channel name cannot be "general"',
+    }),
+  type: z.enum(ChannelType),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
-const CreateServerDialog = () => {
+const CreateChannelDialog = () => {
   const router = useRouter();
+  const params = useParams();
+
   const { isOpen, onClose, type } = useDialogStore();
 
-  const isDialogOpen = isOpen && type === "createServer";
+  const isDialogOpen = isOpen && type === "createChannel";
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      imageUrl: "",
+      type: "TEXT",
     },
   });
 
@@ -50,7 +64,14 @@ const CreateServerDialog = () => {
 
   const onSubmit = async (values: FormValues) => {
     try {
-      await axios.post("/api/servers", values);
+      const url = qs.stringifyUrl({
+        url: "/api/channels",
+        query: {
+          serverId: params?.serverId,
+        },
+      });
+
+      await axios.post(url, values);
 
       form.reset();
       router.refresh();
@@ -68,28 +89,27 @@ const CreateServerDialog = () => {
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
-            Customize your server
+            Create Channel
           </DialogTitle>
-          <DialogDescription className="text-center text-zinc-500">
-            Give your server a personality with a name and an image. You can
-            always change it later.
-          </DialogDescription>
         </DialogHeader>
-        <form id="form-create-server" onSubmit={form.handleSubmit(onSubmit)}>
+        <form id="form-create-channel" onSubmit={form.handleSubmit(onSubmit)}>
           <div className="px-6">
             <FieldGroup className="gap-8">
               <Controller
                 control={form.control}
-                name="imageUrl"
+                name="name"
                 render={({ field, fieldState }) => (
-                  <Field
-                    data-invalid={fieldState.error}
-                    className="flex items-center justify-center text-center"
-                  >
-                    <FileUpload
-                      endpoint="serverImage"
-                      value={field.value}
-                      onChange={field.onChange}
+                  <Field data-invalid={fieldState.error}>
+                    <FieldLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
+                      Channel name
+                    </FieldLabel>
+                    <Input
+                      {...field}
+                      id="create-channel-name"
+                      aria-invalid={fieldState.invalid}
+                      disabled={isLoading}
+                      className="bg-zinc-300/50! border-0 focus-visible:ring-0 text-black! focus-within:ring-offset-0"
+                      placeholder="Enter channel name"
                     />
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />
@@ -99,20 +119,32 @@ const CreateServerDialog = () => {
               />
               <Controller
                 control={form.control}
-                name="name"
+                name="type"
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.error}>
                     <FieldLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
-                      Server name
+                      Channel type
                     </FieldLabel>
-                    <Input
-                      {...field}
-                      id="create-server-name"
-                      aria-invalid={fieldState.invalid}
+                    <Select
                       disabled={isLoading}
-                      className="bg-zinc-300/50! border-0 focus-visible:ring-0 text-black! focus-within:ring-offset-0"
-                      placeholder="Enter server name"
-                    />
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <SelectTrigger className="bg-zinc-300/50! border-0 focus:ring-0! text-black ring-offset-0 focus:ring-offset-0! capitalize outline-none">
+                        <SelectValue placeholder="Select a channel type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {Object.values(ChannelType).map((type) => (
+                          <SelectItem
+                            key={type}
+                            value={type}
+                            className="capitalize"
+                          >
+                            {type.toLowerCase()}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />
                     )}
@@ -125,7 +157,7 @@ const CreateServerDialog = () => {
         <DialogFooter className="bg-gray-100 px-6 py-4">
           <Button
             type="submit"
-            form="form-create-server"
+            form="form-create-channel"
             disabled={isLoading}
             variant="primary"
           >
@@ -137,4 +169,4 @@ const CreateServerDialog = () => {
   );
 };
 
-export { CreateServerDialog };
+export { CreateChannelDialog };
