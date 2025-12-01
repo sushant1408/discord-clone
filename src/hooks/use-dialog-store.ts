@@ -7,7 +7,9 @@ export type DialogType =
   | "invite"
   | "editServer"
   | "members"
-  | "createChannel";
+  | "createChannel"
+  | "leaveServer"
+  | "deleteServer";
 
 interface DialogData {
   server?: Server;
