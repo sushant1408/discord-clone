@@ -86,7 +86,7 @@ const EditServerDialog = () => {
             always change it later.
           </DialogDescription>
         </DialogHeader>
-        <form id="form-initial-server" onSubmit={form.handleSubmit(onSubmit)}>
+        <form id="form-edit-server" onSubmit={form.handleSubmit(onSubmit)}>
           <div className="px-6">
             <FieldGroup className="gap-8">
               <Controller
@@ -118,7 +118,7 @@ const EditServerDialog = () => {
                     </FieldLabel>
                     <Input
                       {...field}
-                      id="initial-server-name"
+                      id="edit-server-name"
                       aria-invalid={fieldState.invalid}
                       disabled={isLoading}
                       className="bg-zinc-300/50! border-0 focus-visible:ring-0 text-black! focus-within:ring-offset-0"
@@ -136,7 +136,7 @@ const EditServerDialog = () => {
         <DialogFooter className="bg-gray-100 px-6 py-4">
           <Button
             type="submit"
-            form="form-initial-server"
+            form="form-edit-server"
             disabled={isLoading}
             variant="primary"
           >

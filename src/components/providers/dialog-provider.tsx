@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 
+import { CreateChannelDialog } from "@/components/dialogs/create-channel-dialog";
 import { CreateServerDialog } from "@/components/dialogs/create-server-dialog";
 import { EditServerDialog } from "@/components/dialogs/edit-server-dialog";
 import { InviteDialog } from "@/components/dialogs/invite-dialog";
@@ -24,6 +25,7 @@ const DialogProvider = () => {
       <InviteDialog />
       <EditServerDialog />
       <MembersDialog />
+      <CreateChannelDialog />
     </>
   );
 };
