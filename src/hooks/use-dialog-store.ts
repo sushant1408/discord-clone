@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 import type { Server } from "@/generated/prisma/client";
 
-export type DialogType = "createServer" | "invite" | "editServer";
+export type DialogType = "createServer" | "invite" | "editServer" | "members";
 
 interface DialogData {
   server?: Server;

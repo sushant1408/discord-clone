@@ -18,8 +18,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MemberRole } from "@/generated/prisma/enums";
-import type { ServerWithMembersWithProfiles } from "@/lib/types";
 import { useDialogStore } from "@/hooks/use-dialog-store";
+import type { ServerWithMembersWithProfiles } from "@/lib/types";
 
 interface ServerHeaderProps {
   server: ServerWithMembersWithProfiles;
@@ -63,7 +63,10 @@ const ServerHeader = ({ role, server }: ServerHeaderProps) => {
           </DropdownMenuItem>
         )}
         {isAdmin && (
-          <DropdownMenuItem className="px-3 py-2 text-sm cursor-pointer">
+          <DropdownMenuItem
+            className="px-3 py-2 text-sm cursor-pointer"
+            onClick={() => onOpen("members", { server })}
+          >
             Manage Members
             <UsersIcon className="size-4 ml-auto" />
           </DropdownMenuItem>
