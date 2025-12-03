@@ -1,13 +1,14 @@
 import { HashIcon } from "lucide-react";
 
 import { MobileToggle } from "@/components/mobile-toggle";
-import type { Profile, Server } from "@/generated/prisma/client";
+import { UserAvatar } from "@/components/user-avatar";
+import type { Channel, Profile, Server } from "@/generated/prisma/client";
 
 interface ChatHeaderProps {
   serverId: Server["id"];
-  name: Server["name"] | Profile["name"];
+  name: Channel["name"] | Profile["name"];
   type: "channel" | "conversation";
-  imageUrl?: Server["imageUrl"] | Profile["imageUrl"];
+  imageUrl?: Profile["imageUrl"];
 }
 
 const ChatHeader = ({ serverId, name, type, imageUrl }: ChatHeaderProps) => {
@@ -17,6 +18,7 @@ const ChatHeader = ({ serverId, name, type, imageUrl }: ChatHeaderProps) => {
       {type === "channel" && (
         <HashIcon className="size-5 text-zinc-500 dark:text-zinc-400 mr-2" />
       )}
+      {type === "conversation" && <UserAvatar src={imageUrl} className="size-8 md:size-8 mr-2" />}
       <p className="font-semibold text-base text-black dark:text-white">
         {name}
       </p>
