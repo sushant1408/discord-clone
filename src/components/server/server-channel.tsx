@@ -13,7 +13,7 @@ import { useParams, useRouter } from "next/navigation";
 import { ActionTooltip } from "@/components/action-tooltip";
 import type { Channel, Server } from "@/generated/prisma/client";
 import { ChannelType, MemberRole } from "@/generated/prisma/enums";
-import { useDialogStore } from "@/hooks/use-dialog-store";
+import { type DialogType, useDialogStore } from "@/hooks/use-dialog-store";
 import { GENERAL_CHANNEL_NAME } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
@@ -36,6 +36,11 @@ const ServerChannel = ({ channel, server, role }: ServerChannelProps) => {
   const { onOpen } = useDialogStore();
 
   const Icon = iconMap[channel.type];
+
+  const handleActionClick = (e: React.MouseEvent, action: DialogType) => {
+    e.stopPropagation();
+    onOpen(action, { channel, server });
+  };
 
   return (
     <button
@@ -63,19 +68,13 @@ const ServerChannel = ({ channel, server, role }: ServerChannelProps) => {
           <ActionTooltip label="Edit">
             <EditIcon
               className="hidden group-hover:block size-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition"
-              onClick={(e) => {
-                e.stopPropagation();
-                onOpen("editChannel", { channel, server });
-              }}
+              onClick={(e) => handleActionClick(e, "editChannel")}
             />
           </ActionTooltip>
           <ActionTooltip label="Delete">
             <TrashIcon
               className="hidden group-hover:block size-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition"
-              onClick={(e) => {
-                e.stopPropagation();
-                onOpen("deleteChannel", { channel, server });
-              }}
+              onClick={(e) => handleActionClick(e, "deleteChannel")}
             />
           </ActionTooltip>
         </div>
