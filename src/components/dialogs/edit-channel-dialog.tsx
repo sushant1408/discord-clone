@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import qs from "query-string";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -46,14 +46,13 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-const CreateChannelDialog = () => {
+const EditChannelDialog = () => {
   const router = useRouter();
-  const params = useParams();
 
   const { isOpen, onClose, type, data } = useDialogStore();
 
-  const isDialogOpen = isOpen && type === "createChannel";
-  const { channelType } = data;
+  const isDialogOpen = isOpen && type === "editChannel";
+  const { channel, server } = data;
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -64,25 +63,24 @@ const CreateChannelDialog = () => {
   });
 
   useEffect(() => {
-    if (channelType) {
-      form.setValue("type", channelType);
-    } else {
-      form.setValue("type", ChannelType.TEXT);
+    if (channel) {
+      form.setValue("name", channel.name);
+      form.setValue("type", channel.type);
     }
-  }, [channelType, form]);
+  }, [channel, form]);
 
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: FormValues) => {
     try {
       const url = qs.stringifyUrl({
-        url: "/api/channels",
+        url: `/api/channels/${channel?.id}`,
         query: {
-          serverId: params?.serverId,
+          serverId: server?.id,
         },
       });
 
-      await axios.post(url, values);
+      await axios.patch(url, values);
 
       form.reset();
       router.refresh();
@@ -100,10 +98,10 @@ const CreateChannelDialog = () => {
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
-            Create Channel
+            Edit Channel
           </DialogTitle>
         </DialogHeader>
-        <form id="form-create-channel" onSubmit={form.handleSubmit(onSubmit)}>
+        <form id="form-edit-channel" onSubmit={form.handleSubmit(onSubmit)}>
           <div className="px-6">
             <FieldGroup className="gap-8">
               <Controller
@@ -116,7 +114,7 @@ const CreateChannelDialog = () => {
                     </FieldLabel>
                     <Input
                       {...field}
-                      id="create-channel-name"
+                      id="edit-channel-name"
                       aria-invalid={fieldState.invalid}
                       disabled={isLoading}
                       className="bg-zinc-300/50! border-0 focus-visible:ring-0 text-black! focus-within:ring-offset-0"
@@ -168,7 +166,7 @@ const CreateChannelDialog = () => {
         <DialogFooter className="bg-gray-100 px-6 py-4">
           <Button
             type="submit"
-            form="form-create-channel"
+            form="form-edit-channel"
             disabled={isLoading}
             variant="primary"
           >
@@ -180,4 +178,4 @@ const CreateChannelDialog = () => {
   );
 };
 
-export { CreateChannelDialog };
+export { EditChannelDialog };

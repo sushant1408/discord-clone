@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-import type { ChannelType, Server } from "@/generated/prisma/client";
+import type { Channel, ChannelType, Server } from "@/generated/prisma/client";
 
 export type DialogType =
   | "createServer"
@@ -9,11 +9,14 @@ export type DialogType =
   | "members"
   | "createChannel"
   | "leaveServer"
-  | "deleteServer";
+  | "deleteServer"
+  | "deleteChannel"
+  | "editChannel";
 
 interface DialogData {
   server?: Server;
   channelType?: ChannelType;
+  channel?: Channel;
 }
 
 type DialogStoreState = {
@@ -34,7 +37,7 @@ const useDialogStore = create<DialogStore>((set) => ({
   data: {},
   isOpen: false,
   onOpen: (type, data = {}) => set({ isOpen: true, type, data }),
-  onClose: () => set({ isOpen: false, type: null, data: {} }),
+  onClose: () => set({ isOpen: false, type: null }),
 }));
 
 export { useDialogStore };

@@ -34,6 +34,9 @@ const ServerMember = ({ member, server }: ServerMemberProps) => {
         "group p-2 rounded-md flex items-center gap-x-2 w-full hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition mb-1",
         params?.memberId === member.id && "bg-zinc-700/20 dark:bg-zinc-700"
       )}
+      onClick={() =>
+        router.push(`/servers/${server.id}/conversations/${member.id}`)
+      }
     >
       <UserAvatar src={member.profile.imageUrl} className="size-8 md:size-8" />
       <p
