@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { v4 as uuidv4 } from "uuid";
 
 import { MemberRole } from "@/generated/prisma/enums";
+import { GENERAL_CHANNEL_NAME } from "@/lib/constants";
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/prisma";
 
@@ -21,8 +21,10 @@ export async function POST(req: Request) {
       return new NextResponse("Server ID Missing", { status: 400 });
     }
 
-    if (name === "general") {
-      return new NextResponse('Name cannot be "general"', { status: 400 });
+    if (name === GENERAL_CHANNEL_NAME) {
+      return new NextResponse(`Name cannot be "${GENERAL_CHANNEL_NAME}"`, {
+        status: 400,
+      });
     }
 
     const server = await db.server.update({
