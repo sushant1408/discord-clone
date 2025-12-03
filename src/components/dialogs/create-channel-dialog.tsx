@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
 import qs from "query-string";
+import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -48,17 +49,26 @@ const CreateChannelDialog = () => {
   const router = useRouter();
   const params = useParams();
 
-  const { isOpen, onClose, type } = useDialogStore();
+  const { isOpen, onClose, type, data } = useDialogStore();
 
   const isDialogOpen = isOpen && type === "createChannel";
+  const { channelType } = data;
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      type: "TEXT",
+      type: ChannelType.TEXT,
     },
   });
+
+  useEffect(() => {
+    if (channelType) {
+      form.setValue("type", channelType);
+    } else {
+      form.setValue("type", ChannelType.TEXT);
+    }
+  }, [channelType, form]);
 
   const isLoading = form.formState.isSubmitting;
 
