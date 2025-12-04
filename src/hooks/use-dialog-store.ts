@@ -11,12 +11,15 @@ export type DialogType =
   | "leaveServer"
   | "deleteServer"
   | "deleteChannel"
-  | "editChannel";
+  | "editChannel"
+  | "messageFile";
 
 interface DialogData {
   server?: Server;
   channelType?: ChannelType;
   channel?: Channel;
+  apiUrl?: string;
+  query?: Record<string, any>;
 }
 
 type DialogStoreState = {
