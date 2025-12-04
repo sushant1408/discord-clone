@@ -11,6 +11,7 @@ import { EditServerDialog } from "@/components/dialogs/edit-server-dialog";
 import { InviteDialog } from "@/components/dialogs/invite-dialog";
 import { LeaveServerDialog } from "@/components/dialogs/leave-server-dialog";
 import { MembersDialog } from "@/components/dialogs/members-dialog";
+import { MessageFileDialog } from "@/components/dialogs/message-file-dialog";
 
 const DialogProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -34,6 +35,7 @@ const DialogProvider = () => {
       <DeleteServerDialog />
       <DeleteChannelDialog />
       <EditChannelDialog />
+      <MessageFileDialog />
     </>
   );
 };
