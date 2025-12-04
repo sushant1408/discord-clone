@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import "./globals.css";
+import { SocketProvider } from "@/components/providers/socket-provider";
 
 const openSans = Open_Sans({
   subsets: ["latin"],
@@ -48,8 +49,10 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <DialogProvider />
-            {children}
+            <SocketProvider>
+              <DialogProvider />
+              {children}
+            </SocketProvider>
           </ThemeProvider>
         </body>
       </html>
