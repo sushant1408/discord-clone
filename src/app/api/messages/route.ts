@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 
-import { currentProfile } from "@/lib/current-profile";
 import type { Message } from "@/generated/prisma/client";
-import { db } from "@/lib/prisma";
 import { MESSAGES_BATCH } from "@/lib/constants";
+import { currentProfile } from "@/lib/current-profile";
+import { db } from "@/lib/prisma";
 
 export async function GET(req: Request) {
   try {
@@ -21,7 +21,7 @@ export async function GET(req: Request) {
       return new NextResponse("Channel ID missing", { status: 400 });
     }
 
-    let messages: Message[] = [];
+    let messages: (Message & { fileType?: string })[] = [];
 
     if (cursor) {
       messages = await db.message.findMany({
@@ -61,6 +61,14 @@ export async function GET(req: Request) {
           createdAt: "desc",
         },
       });
+    }
+
+    for (const message of messages) {
+      if (message.fileUrl) {
+        const response = await fetch(message.fileUrl, { method: "HEAD" });
+        const type = response.headers.get("Content-Type")?.split("/").pop();
+        message.fileType = type;
+      }
     }
 
     let nextCursor = null;

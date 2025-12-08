@@ -22,5 +22,6 @@ export type NextApiResponseServerIo = NextApiResponse & {
 };
 
 export type MessageWithMemberWithProfile = Message & {
-  members: Member & { profile: Profile };
+  fileType?: string;
+  member: Member & { profile: Profile };
 };
