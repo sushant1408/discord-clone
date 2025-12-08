@@ -12,7 +12,8 @@ export type DialogType =
   | "deleteServer"
   | "deleteChannel"
   | "editChannel"
-  | "messageFile";
+  | "messageFile"
+  | "deleteMessage";
 
 interface DialogData {
   server?: Server;

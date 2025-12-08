@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { CreateChannelDialog } from "@/components/dialogs/create-channel-dialog";
 import { CreateServerDialog } from "@/components/dialogs/create-server-dialog";
 import { DeleteChannelDialog } from "@/components/dialogs/delete-channel-dialog";
+import { DeleteMessageDialog } from "@/components/dialogs/delete-message-dialog";
 import { DeleteServerDialog } from "@/components/dialogs/delete-server-dialog";
 import { EditChannelDialog } from "@/components/dialogs/edit-channel-dialog";
 import { EditServerDialog } from "@/components/dialogs/edit-server-dialog";
@@ -36,6 +37,7 @@ const DialogProvider = () => {
       <DeleteChannelDialog />
       <EditChannelDialog />
       <MessageFileDialog />
+      <DeleteMessageDialog />
     </>
   );
 };
