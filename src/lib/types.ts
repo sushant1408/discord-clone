@@ -2,7 +2,12 @@ import type { Server as NetServer, Socket } from "net";
 import type { NextApiResponse } from "next";
 import type { Server as SocketIOServer } from "socket.io";
 
-import type { Member, Profile, Server } from "@/generated/prisma/client";
+import type {
+  Member,
+  Message,
+  Profile,
+  Server,
+} from "@/generated/prisma/client";
 
 export type ServerWithMembersWithProfiles = Server & {
   members: (Member & { profile: Profile })[];
@@ -14,4 +19,8 @@ export type NextApiResponseServerIo = NextApiResponse & {
       io: SocketIOServer;
     };
   };
+};
+
+export type MessageWithMemberWithProfile = Message & {
+  members: Member & { profile: Profile };
 };

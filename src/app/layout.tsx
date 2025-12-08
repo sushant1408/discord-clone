@@ -8,6 +8,7 @@ import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 import { SocketProvider } from "@/components/providers/socket-provider";
+import QueryProvider from "@/components/providers/query-provider";
 
 const openSans = Open_Sans({
   subsets: ["latin"],
@@ -40,7 +41,7 @@ export default function RootLayout({
         <body
           className={cn(
             openSans.className,
-            "antialiased bg-white dark:bg-[#313338]"
+            "antialiased bg-white dark:bg-[#313338]",
           )}
         >
           <ThemeProvider
@@ -51,7 +52,7 @@ export default function RootLayout({
           >
             <SocketProvider>
               <DialogProvider />
-              {children}
+              <QueryProvider>{children}</QueryProvider>
             </SocketProvider>
           </ThemeProvider>
         </body>
