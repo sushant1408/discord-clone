@@ -50,7 +50,7 @@ const ChatInput = ({ apiUrl, name, query, type }: ChatInputProps) => {
       });
 
       await axios.post(url, values).then((res) => {
-        const channelKey = `chat:${query?.channelId}:messages`;
+        const channelKey = `chat:${type === "conversation" ? query?.conversationId : query?.channelId}:messages`;
         socket.emit(channelKey, res.data);
       });
 
