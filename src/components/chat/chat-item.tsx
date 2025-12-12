@@ -10,6 +10,7 @@ import {
   TrashIcon,
 } from "lucide-react";
 import Image from "next/image";
+import { useParams, useRouter } from "next/navigation";
 import qs from "query-string";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -40,6 +41,7 @@ interface ChatItemProps {
   isUpdated: boolean;
   socketUrl: string;
   socketQuery: Record<string, string>;
+  type: "channel" | "conversation";
 }
 
 const roleIconMap = {
@@ -68,7 +70,11 @@ const ChatItem = ({
   isUpdated,
   socketQuery,
   socketUrl,
+  type,
 }: ChatItemProps) => {
+  const router = useRouter();
+  const params = useParams();
+
   const [isEditing, setIsEditing] = useState(false);
 
   const { onOpen } = useDialogStore();
@@ -112,6 +118,14 @@ const ChatItem = ({
   const isImage = !isPdf && fileUrl;
   const isLoading = form.formState.isSubmitting;
 
+  const handleMemberClick = () => {
+    if (member.id === currentMember.id) {
+      return;
+    }
+
+    router.push(`/servers/${params?.serverId}/conversations/${member.id}`);
+  };
+
   const onSubmit = async (values: FormValues) => {
     try {
       const url = qs.stringifyUrl({
@@ -120,7 +134,7 @@ const ChatItem = ({
       });
 
       await axios.patch(url, values).then((res) => {
-        const updateKey = `chat:${socketQuery?.channelId}:messages:update`;
+        const updateKey = `chat:${type === "conversation" ? socketQuery?.conversationId : socketQuery?.channelId}:messages:update`;
         socket.emit(updateKey, res.data);
       });
       form.reset();
@@ -133,13 +147,19 @@ const ChatItem = ({
   return (
     <div className="relative group flex items-center hover:bg-black/5 p-4 transition w-full">
       <div className="group flex gap-x-2 items-start w-full">
-        <div className="cursor-pointer hover:drop-shadow-md transition">
+        <div
+          className="cursor-pointer hover:drop-shadow-md transition"
+          onClick={handleMemberClick}
+        >
           <UserAvatar src={member.profile.imageUrl} />
         </div>
         <div className="flex flex-col w-full">
           <div className="flex items-center gap-x-2">
             <div className="flex items-center">
-              <p className="font-semibold text-sm hover:underline cursor-pointer">
+              <p
+                className="font-semibold text-sm hover:underline cursor-pointer"
+                onClick={handleMemberClick}
+              >
                 {member.profile.name}
               </p>
               <ActionTooltip label={member.role}>
