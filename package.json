@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "node ./src/server.ts",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "NODE_ENV=production node ./src/server.ts",
     "lint": "biome check",
     "format": "biome format --write"
