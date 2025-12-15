@@ -7,7 +7,7 @@ import type {
   Message,
   Profile,
   Server,
-} from "@/generated/prisma/client";
+} from "@/generated/prisma";
 
 export type ServerWithMembersWithProfiles = Server & {
   members: (Member & { profile: Profile })[];

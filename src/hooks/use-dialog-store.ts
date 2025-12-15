@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-import type { Channel, ChannelType, Server } from "@/generated/prisma/client";
+import type { Channel, ChannelType, Server } from "@/generated/prisma";
 
 export type DialogType =
   | "createServer"

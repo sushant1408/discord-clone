@@ -11,7 +11,7 @@ import type {
   Conversation,
   DirectMessage,
   Member,
-} from "@/generated/prisma/client";
+} from "@/generated/prisma";
 import { useChatQuery } from "@/hooks/use-chat-query";
 import { useChatScroll } from "@/hooks/use-chat-scroll";
 import { useChatSocket } from "@/hooks/use-chat-socket";

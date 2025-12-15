@@ -4,9 +4,9 @@ import { ShieldAlertIcon, ShieldCheckIcon } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 
 import { UserAvatar } from "@/components/user-avatar";
+import type { Member, Profile, Server } from "@/generated/prisma";
+import { MemberRole } from "@/generated/prisma";
 import { cn } from "@/lib/utils";
-import type { Member, Profile, Server } from "../../generated/prisma/client";
-import { MemberRole } from "../../generated/prisma/enums";
 
 interface ServerMemberProps {
   member: Member & { profile: Profile };

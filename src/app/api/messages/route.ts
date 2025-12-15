@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import type { Message } from "@/generated/prisma/client";
+import type { Message } from "@/generated/prisma";
 import { MESSAGES_BATCH } from "@/lib/constants";
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/prisma";

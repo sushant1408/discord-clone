@@ -22,10 +22,10 @@ import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { UserAvatar } from "@/components/user-avatar";
-import type { Member, Message, Profile } from "@/generated/prisma/client";
+import type { Member, Message, Profile } from "@/generated/prisma";
+import { MemberRole } from "@/generated/prisma";
 import { useDialogStore } from "@/hooks/use-dialog-store";
 import { cn } from "@/lib/utils";
-import { MemberRole } from "../../generated/prisma/enums";
 
 interface ChatItemProps {
   id: Message["id"];

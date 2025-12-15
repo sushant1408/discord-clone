@@ -35,10 +35,10 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Spinner } from "@/components/ui/spinner";
 import { UserAvatar } from "@/components/user-avatar";
-import type { Member } from "@/generated/prisma/client";
+import type { Member } from "@/generated/prisma";
+import { MemberRole } from "@/generated/prisma";
 import { useDialogStore } from "@/hooks/use-dialog-store";
 import type { ServerWithMembersWithProfiles } from "@/lib/types";
-import { MemberRole } from "../../generated/prisma/enums";
 
 const roleIconMap = {
   [MemberRole.GUEST]: null,

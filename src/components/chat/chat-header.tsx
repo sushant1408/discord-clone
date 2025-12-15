@@ -4,7 +4,7 @@ import { ChatVideoButton } from "@/components/chat/chat-video-button";
 import { MobileToggle } from "@/components/mobile-toggle";
 import { SocketIndicator } from "@/components/socket-indicator";
 import { UserAvatar } from "@/components/user-avatar";
-import type { Channel, Profile, Server } from "@/generated/prisma/client";
+import type { Channel, Profile, Server } from "@/generated/prisma";
 
 interface ChatHeaderProps {
   serverId: Server["id"];

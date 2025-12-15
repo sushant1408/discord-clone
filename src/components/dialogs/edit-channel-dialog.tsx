@@ -30,9 +30,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ChannelType } from "@/generated/prisma";
 import { useDialogStore } from "@/hooks/use-dialog-store";
 import { GENERAL_CHANNEL_NAME } from "@/lib/constants";
-import { ChannelType } from "../../generated/prisma/enums";
 
 const formSchema = z.object({
   name: z

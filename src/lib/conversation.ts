@@ -1,4 +1,4 @@
-import type { Conversation } from "@/generated/prisma/client";
+import type { Conversation } from "@/generated/prisma";
 import { db } from "@/lib/prisma";
 
 const findConversation = async (

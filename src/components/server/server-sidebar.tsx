@@ -14,13 +14,13 @@ import { ServerSearch } from "@/components/server/server-search";
 import { ServerSection } from "@/components/server/server-section";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/prisma";
 import {
   ChannelType,
   MemberRole,
   type Server,
-} from "../../generated/prisma/client";
+} from "@/generated/prisma";
+import { currentProfile } from "@/lib/current-profile";
+import { db } from "@/lib/prisma";
 
 interface ServerSidebarProps {
   serverId: Server["id"];

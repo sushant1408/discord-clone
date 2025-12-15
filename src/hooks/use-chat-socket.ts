@@ -2,7 +2,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 
 import { useSocket } from "@/components/providers/socket-provider";
-import type { Member, Message, Profile } from "@/generated/prisma/client";
+import type { Member, Message, Profile } from "@/generated/prisma";
 
 interface ChatSocketProps {
   addKey: string;

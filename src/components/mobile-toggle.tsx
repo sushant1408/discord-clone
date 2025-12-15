@@ -4,7 +4,7 @@ import { NavigationSidebar } from "@/components/navigation/navigation-sidebar";
 import { ServerSidebar } from "@/components/server/server-sidebar";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import type { Server } from "@/generated/prisma/client";
+import type { Server } from "@/generated/prisma";
 
 const MobileToggle = ({ serverId }: { serverId: Server["id"] }) => {
   return (

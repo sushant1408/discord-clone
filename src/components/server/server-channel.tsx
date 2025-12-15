@@ -11,11 +11,11 @@ import {
 import { useParams, useRouter } from "next/navigation";
 
 import { ActionTooltip } from "@/components/action-tooltip";
+import type { Channel, Server } from "@/generated/prisma";
+import { ChannelType, MemberRole } from "@/generated/prisma";
 import { type DialogType, useDialogStore } from "@/hooks/use-dialog-store";
 import { GENERAL_CHANNEL_NAME } from "@/lib/constants";
 import { cn } from "@/lib/utils";
-import type { Channel, Server } from "../../generated/prisma/client";
-import { ChannelType, MemberRole } from "../../generated/prisma/enums";
 
 interface ServerChannelProps {
   channel: Channel;
