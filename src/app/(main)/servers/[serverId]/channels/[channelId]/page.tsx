@@ -5,9 +5,9 @@ import { ChatHeader } from "@/components/chat/chat-header";
 import { ChatInput } from "@/components/chat/chat-input";
 import { ChatMessages } from "@/components/chat/chat-messages";
 import { MediaRoom } from "@/components/media-room";
-import { ChannelType } from "@/generated/prisma/enums";
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/prisma";
+import { ChannelType } from "../../../../../../generated/prisma/enums";
 
 interface ChannelIdPageProps {
   params: Promise<{ serverId: string; channelId: string }>;

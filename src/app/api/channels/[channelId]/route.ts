@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 
-import { MemberRole } from "@/generated/prisma/enums";
 import { GENERAL_CHANNEL_NAME } from "@/lib/constants";
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/prisma";
+import { MemberRole } from "../../../../generated/prisma/enums";
 
 export async function PATCH(
   req: Request,
