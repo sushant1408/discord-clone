@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 
-import { MemberRole } from "@/generated/prisma";
+import { MemberRole } from "@/generated/prisma/enums";
 import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 
 export async function PATCH(
   req: Request,
@@ -33,7 +33,7 @@ export async function PATCH(
       return new NextResponse("Content Missing", { status: 400 });
     }
 
-    const conversation = await db.conversation.findFirst({
+    const conversation = await prisma.conversation.findFirst({
       where: {
         id: conversationId,
         OR: [
@@ -76,7 +76,7 @@ export async function PATCH(
       return new NextResponse("Member not found", { status: 404 });
     }
 
-    const message = await db.directMessage.findFirst({
+    const message = await prisma.directMessage.findFirst({
       where: {
         id: messageId,
         conversationId,
@@ -103,7 +103,7 @@ export async function PATCH(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const updatedMessage = await db.directMessage.update({
+    const updatedMessage = await prisma.directMessage.update({
       where: {
         id: message.id,
       },
@@ -150,7 +150,7 @@ export async function DELETE(
       return new NextResponse("Message ID missing", { status: 400 });
     }
 
-    const conversation = await db.conversation.findFirst({
+    const conversation = await prisma.conversation.findFirst({
       where: {
         id: conversationId,
         OR: [
@@ -193,7 +193,7 @@ export async function DELETE(
       return new NextResponse("Member not found", { status: 404 });
     }
 
-    const message = await db.directMessage.findFirst({
+    const message = await prisma.directMessage.findFirst({
       where: {
         id: messageId,
         conversationId,
@@ -220,7 +220,7 @@ export async function DELETE(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const deletedMessage = await db.directMessage.update({
+    const deletedMessage = await prisma.directMessage.update({
       where: {
         id: message.id,
       },

@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 
 import { ActionTooltip } from "@/components/action-tooltip";
-import type { Server } from "@/generated/prisma";
+import type { Server } from "@/generated/prisma/client";
 import { cn } from "@/lib/utils";
 
 interface NavigationItemProps {

@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 
 import { GENERAL_CHANNEL_NAME } from "@/lib/constants";
 import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 
 interface ServerIdPageProps {
   params: Promise<{ serverId: string }>;
@@ -19,7 +19,7 @@ export default async function ServerIdPage({ params }: ServerIdPageProps) {
 
   const { serverId } = await params;
 
-  const server = await db.server.findUnique({
+  const server = await prisma.server.findUnique({
     where: {
       id: serverId,
       members: {

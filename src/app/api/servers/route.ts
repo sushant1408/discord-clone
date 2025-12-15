@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
 
-import { MemberRole } from "@/generated/prisma";
+import { MemberRole } from "@/generated/prisma/enums";
 import { GENERAL_CHANNEL_NAME } from "@/lib/constants";
 import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 
 export async function POST(req: Request) {
   try {
@@ -15,7 +15,7 @@ export async function POST(req: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const server = await db.server.create({
+    const server = await prisma.server.create({
       data: {
         profileId: profile.id,
         name,

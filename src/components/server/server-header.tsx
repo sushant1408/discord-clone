@@ -17,7 +17,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MemberRole } from "@/generated/prisma";
+import { MemberRole } from "@/generated/prisma/enums";
 import { useDialogStore } from "@/hooks/use-dialog-store";
 import type { ServerWithMembersWithProfiles } from "@/lib/types";
 

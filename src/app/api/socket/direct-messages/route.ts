@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 
 export async function POST(req: Request) {
   try {
@@ -23,7 +23,7 @@ export async function POST(req: Request) {
       return new NextResponse("Content Missing", { status: 400 });
     }
 
-    const conversation = await db.conversation.findFirst({
+    const conversation = await prisma.conversation.findFirst({
       where: {
         id: conversationId,
         OR: [
@@ -66,7 +66,7 @@ export async function POST(req: Request) {
       return new NextResponse("Member not found", { status: 404 });
     }
 
-    const message = await db.directMessage.create({
+    const message = await prisma.directMessage.create({
       data: {
         content,
         fileUrl,

@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 
-import { MemberRole } from "@/generated/prisma";
+import { MemberRole } from "@/generated/prisma/enums";
 import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 
 export async function PATCH(
   req: Request,
@@ -38,7 +38,7 @@ export async function PATCH(
       return new NextResponse("Content Missing", { status: 400 });
     }
 
-    const server = await db.server.findFirst({
+    const server = await prisma.server.findFirst({
       where: {
         id: serverId,
         members: {
@@ -56,7 +56,7 @@ export async function PATCH(
       return new NextResponse("Server not found", { status: 404 });
     }
 
-    const channel = await db.channel.findFirst({
+    const channel = await prisma.channel.findFirst({
       where: {
         id: channelId,
         serverId,
@@ -75,7 +75,7 @@ export async function PATCH(
       return new NextResponse("Member not found", { status: 404 });
     }
 
-    const message = await db.message.findFirst({
+    const message = await prisma.message.findFirst({
       where: {
         id: messageId,
         channelId,
@@ -102,7 +102,7 @@ export async function PATCH(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const updatedMessage = await db.message.update({
+    const updatedMessage = await prisma.message.update({
       where: {
         id: message.id,
       },
@@ -154,7 +154,7 @@ export async function DELETE(
       return new NextResponse("Message ID missing", { status: 400 });
     }
 
-    const server = await db.server.findFirst({
+    const server = await prisma.server.findFirst({
       where: {
         id: serverId,
         members: {
@@ -172,7 +172,7 @@ export async function DELETE(
       return new NextResponse("Server not found", { status: 404 });
     }
 
-    const channel = await db.channel.findFirst({
+    const channel = await prisma.channel.findFirst({
       where: {
         id: channelId,
         serverId,
@@ -191,7 +191,7 @@ export async function DELETE(
       return new NextResponse("Member not found", { status: 404 });
     }
 
-    const message = await db.message.findFirst({
+    const message = await prisma.message.findFirst({
       where: {
         id: messageId,
         channelId,
@@ -218,7 +218,7 @@ export async function DELETE(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const deletedMessage = await db.message.update({
+    const deletedMessage = await prisma.message.update({
       where: {
         id: message.id,
       },

@@ -30,7 +30,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ChannelType } from "@/generated/prisma";
+import { ChannelType } from "@/generated/prisma/enums";
 import { useDialogStore } from "@/hooks/use-dialog-store";
 import { GENERAL_CHANNEL_NAME } from "@/lib/constants";
 

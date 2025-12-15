@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 
-import type { DirectMessage } from "@/generated/prisma";
+import type { DirectMessage } from "@/generated/prisma/client";
 import { MESSAGES_BATCH } from "@/lib/constants";
 import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 
 export async function GET(req: Request) {
   try {
@@ -24,7 +24,7 @@ export async function GET(req: Request) {
     let messages: (DirectMessage & { fileType?: string })[] = [];
 
     if (cursor) {
-      messages = await db.directMessage.findMany({
+      messages = await prisma.directMessage.findMany({
         take: MESSAGES_BATCH,
         skip: 1,
         cursor: {
@@ -45,7 +45,7 @@ export async function GET(req: Request) {
         },
       });
     } else {
-      messages = await db.directMessage.findMany({
+      messages = await prisma.directMessage.findMany({
         take: MESSAGES_BATCH,
         where: {
           conversationId,

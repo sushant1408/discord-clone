@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 
-import { MemberRole } from "@/generated/prisma";
+import { MemberRole } from "@/generated/prisma/enums";
 import { GENERAL_CHANNEL_NAME } from "@/lib/constants";
 import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 
 export async function POST(req: Request) {
   try {
@@ -27,7 +27,7 @@ export async function POST(req: Request) {
       });
     }
 
-    const server = await db.server.update({
+    const server = await prisma.server.update({
       where: {
         id: serverId,
         members: {

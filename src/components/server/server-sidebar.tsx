@@ -14,13 +14,10 @@ import { ServerSearch } from "@/components/server/server-search";
 import { ServerSection } from "@/components/server/server-section";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import {
-  ChannelType,
-  MemberRole,
-  type Server,
-} from "@/generated/prisma";
+import { MemberRole, type Server } from "@/generated/prisma/client";
+import { ChannelType } from "@/generated/prisma/enums";
 import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 
 interface ServerSidebarProps {
   serverId: Server["id"];
@@ -47,7 +44,7 @@ const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
     redirect("/");
   }
 
-  const server = await db.server.findUnique({
+  const server = await prisma.server.findUnique({
     where: {
       id: serverId,
     },
@@ -73,21 +70,21 @@ const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
   }
 
   const textChannels = server.channels.filter(
-    (channel) => channel.type === ChannelType.TEXT
+    (channel) => channel.type === ChannelType.TEXT,
   );
   const audioChannels = server.channels.filter(
-    (channel) => channel.type === ChannelType.AUDIO
+    (channel) => channel.type === ChannelType.AUDIO,
   );
   const videoChannels = server.channels.filter(
-    (channel) => channel.type === ChannelType.VIDEO
+    (channel) => channel.type === ChannelType.VIDEO,
   );
 
   const members = server.members.filter(
-    (member) => member.profileId !== profile.id
+    (member) => member.profileId !== profile.id,
   );
 
   const role = server.members.find(
-    (member) => member.profileId === profile.id
+    (member) => member.profileId === profile.id,
   )?.role;
 
   return (

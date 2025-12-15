@@ -2,12 +2,12 @@ import { redirect } from "next/navigation";
 
 import { InitialDialog } from "@/components/dialogs/initial-dialog";
 import { initialProfile } from "@/lib/initial-profile";
-import { db } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 
 export default async function SetupPage() {
   const profile = await initialProfile();
 
-  const server = await db.server.findFirst({
+  const server = await prisma.server.findFirst({
     where: {
       members: {
         some: {

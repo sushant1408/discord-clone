@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 
 export async function POST(req: Request) {
   try {
@@ -28,7 +28,7 @@ export async function POST(req: Request) {
       return new NextResponse("Content Missing", { status: 400 });
     }
 
-    const server = await db.server.findFirst({
+    const server = await prisma.server.findFirst({
       where: {
         id: serverId,
         members: {
@@ -46,7 +46,7 @@ export async function POST(req: Request) {
       return new NextResponse("Server not found", { status: 404 });
     }
 
-    const channel = await db.channel.findFirst({
+    const channel = await prisma.channel.findFirst({
       where: {
         id: channelId,
         serverId,
@@ -65,7 +65,7 @@ export async function POST(req: Request) {
       return new NextResponse("Member not found", { status: 404 });
     }
 
-    const message = await db.message.create({
+    const message = await prisma.message.create({
       data: {
         content,
         fileUrl,

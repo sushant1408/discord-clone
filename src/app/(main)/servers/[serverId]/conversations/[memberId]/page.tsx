@@ -7,7 +7,7 @@ import { ChatMessages } from "@/components/chat/chat-messages";
 import { MediaRoom } from "@/components/media-room";
 import { getOrCreateConversation } from "@/lib/conversation";
 import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 
 interface ConversationIdPageProps {
   params: Promise<{ serverId: string; memberId: string }>;
@@ -28,7 +28,7 @@ export default async function ConversationIdPage({
   const { serverId, memberId } = await params;
   const { video } = await searchParams;
 
-  const currentMember = await db.member.findFirst({
+  const currentMember = await prisma.member.findFirst({
     where: {
       serverId,
       profileId: profile.id,

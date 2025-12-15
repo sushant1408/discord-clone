@@ -5,9 +5,9 @@ import { ChatHeader } from "@/components/chat/chat-header";
 import { ChatInput } from "@/components/chat/chat-input";
 import { ChatMessages } from "@/components/chat/chat-messages";
 import { MediaRoom } from "@/components/media-room";
-import { ChannelType } from "@/generated/prisma";
+import { ChannelType } from "@/generated/prisma/enums";
 import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 
 interface ChannelIdPageProps {
   params: Promise<{ serverId: string; channelId: string }>;
@@ -23,13 +23,13 @@ export default async function ChannelIdPage({ params }: ChannelIdPageProps) {
 
   const { serverId, channelId } = await params;
 
-  const channel = await db.channel.findUnique({
+  const channel = await prisma.channel.findUnique({
     where: {
       id: channelId,
     },
   });
 
-  const member = await db.member.findFirst({
+  const member = await prisma.member.findFirst({
     where: {
       serverId,
       profileId: profile.id,

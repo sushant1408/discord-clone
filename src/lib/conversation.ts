@@ -1,12 +1,12 @@
-import type { Conversation } from "@/generated/prisma";
-import { db } from "@/lib/prisma";
+import type { Conversation } from "@/generated/prisma/client";
+import prisma from "@/lib/prisma";
 
 const findConversation = async (
   memberOneId: Conversation["memberOneId"],
   memberTwoId: Conversation["memberTwoId"]
 ) => {
   try {
-    return await db.conversation.findFirst({
+    return await prisma.conversation.findFirst({
       where: {
         AND: [{ memberOneId: memberOneId }, { memberTwoId: memberTwoId }],
       },
@@ -33,7 +33,7 @@ const createNewConversation = async (
   memberTwoId: Conversation["memberTwoId"]
 ) => {
   try {
-    return await db.conversation.create({
+    return await prisma.conversation.create({
       data: {
         memberOneId,
         memberTwoId,

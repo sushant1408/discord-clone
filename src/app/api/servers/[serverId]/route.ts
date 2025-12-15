@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 
 export async function PATCH(
   req: Request,
@@ -22,7 +22,7 @@ export async function PATCH(
 
     const { name, imageUrl } = await req.json();
 
-    const server = await db.server.update({
+    const server = await prisma.server.update({
       where: {
         id: serverId,
         profileId: profile.id,
@@ -57,7 +57,7 @@ export async function DELETE(
       return new NextResponse("Server ID missing", { status: 400 });
     }
 
-    const server = await db.server.delete({
+    const server = await prisma.server.delete({
       where: {
         id: serverId,
         profileId: profile.id,

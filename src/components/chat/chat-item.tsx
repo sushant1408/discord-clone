@@ -22,8 +22,8 @@ import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { UserAvatar } from "@/components/user-avatar";
-import type { Member, Message, Profile } from "@/generated/prisma";
-import { MemberRole } from "@/generated/prisma";
+import type { Member, Message, Profile } from "@/generated/prisma/client";
+import { MemberRole } from "@/generated/prisma/enums";
 import { useDialogStore } from "@/hooks/use-dialog-store";
 import { cn } from "@/lib/utils";
 

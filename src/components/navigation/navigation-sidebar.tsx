@@ -7,7 +7,7 @@ import { NavigationItem } from "@/components/navigation/navigation-item";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 
 const NavigationSidebar = async () => {
   const profile = await currentProfile();
@@ -16,7 +16,7 @@ const NavigationSidebar = async () => {
     redirect("/");
   }
 
-  const servers = await db.server.findMany({
+  const servers = await prisma.server.findMany({
     where: {
       members: {
         some: {

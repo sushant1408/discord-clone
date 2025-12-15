@@ -3,7 +3,7 @@
 import { PlusIcon, SettingsIcon } from "lucide-react";
 
 import { ActionTooltip } from "@/components/action-tooltip";
-import { type ChannelType, MemberRole } from "@/generated/prisma";
+import { type ChannelType, MemberRole } from "@/generated/prisma/enums";
 import { useDialogStore } from "@/hooks/use-dialog-store";
 import type { ServerWithMembersWithProfiles } from "@/lib/types";
 

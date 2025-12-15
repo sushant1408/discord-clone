@@ -2,7 +2,7 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
 import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 
 interface InviteIdPageProps {
   params: Promise<{ inviteCode: string }>;
@@ -22,7 +22,7 @@ export default async function InviteIdPage({ params }: InviteIdPageProps) {
     redirect("/");
   }
 
-  const existingServer = await db.server.findFirst({
+  const existingServer = await prisma.server.findFirst({
     where: {
       inviteCode,
       members: {
@@ -37,7 +37,7 @@ export default async function InviteIdPage({ params }: InviteIdPageProps) {
     redirect(`/servers/${existingServer.id}`);
   }
 
-  const server = await db.server.update({
+  const server = await prisma.server.update({
     where: {
       inviteCode,
     },
