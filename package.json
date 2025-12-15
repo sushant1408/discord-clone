@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "node ./src/server.ts",
-    "build": "prisma generate && next build",
+    "build": "next build",
     "start": "NODE_ENV=production node ./src/server.ts",
     "lint": "biome check",
-    "format": "biome format --write"
+    "format": "biome format --write",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.35.5",
